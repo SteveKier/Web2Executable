@@ -17,9 +17,10 @@ import os.path
 import json
 import re
 import subprocess
+import logging
 
 def complain(msg):
-    sys.stderr.write("ERROR: " + str(msg) + "\n")
+    logging.error(str(msg))
     sys.exit(1)
 
 def getValuesFromJson(path):
@@ -60,6 +61,9 @@ def getValuesFromJson(path):
     return rval
 
 def main():
+    logging.basicConfig(format="%(asctime)s: %(levelname)s: %(message)s",
+                        level=logging.DEBUG)
+
     parser = argparse.ArgumentParser()
 
     parser.add_argument("path",
@@ -97,6 +101,7 @@ def main():
                 ]
 
             # Run it
+            logging.debug("cmdStr = {}".format(str(cmdStr)))
             result = subprocess.call(cmdStr)
             if (result != 0):
                 complain("Something went wrong in running the command: {}".format(str(cmdStr)))
