@@ -81,6 +81,8 @@ def main():
     else:
         # Be sure it contains a package.json file
         packageFile = os.path.join(pkgDir, "package.json")
+        web2exeDir = os.path.dirname(os.path.abspath(__file__))
+        cmdLinePath = os.path.join(web2exeDir, "command_line.py")
         if not os.path.isfile(packageFile):
             complain("Unable to find \"{}\" file".format(packageFile))
         else:
@@ -90,7 +92,7 @@ def main():
             # Build the command we want to run
             cmdStr = [
                 "python3.4",
-                "command_line.py",
+                cmdLinePath,
                 pkgDir,
                 "--export-to", "linux-x32",
                 "--nw-version", cmdArgs["nwver"],
